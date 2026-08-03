@@ -1,0 +1,166 @@
+.tasbeh {
+  position: relative;
+  max-width: 360px;
+  margin: 3rem auto;
+  padding: 2rem;
+  text-align: center;
+  font-family: system-ui, sans-serif;
+}
+
+.congrats-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  pointer-events: none;
+  z-index: 50;
+  animation: congrats-fade 1.8s ease forwards;
+}
+
+.congrats-emoji {
+  font-size: 4rem;
+  animation: congrats-pop 0.6s ease;
+}
+
+.congrats-text {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #2e7d32;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  animation: congrats-pop 0.6s ease;
+}
+
+@keyframes congrats-pop {
+  0% { transform: scale(0.3); opacity: 0; }
+  60% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes congrats-fade {
+  0% { opacity: 0; }
+  15% { opacity: 1; }
+  75% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.tasbeh h1 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.target-select {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.target-btn {
+  padding: 0.4rem 0.9rem;
+  border: 1px solid #444;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.target-btn.active {
+  background: #2e7d32;
+  border-color: #2e7d32;
+  color: #fff;
+}
+
+.phrase {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #2e7d32;
+  margin-bottom: 1rem;
+  animation: phrase-in 0.3s ease;
+}
+
+@keyframes phrase-in {
+  0% { opacity: 0; transform: translateY(-6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.counter-btn {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  border: 4px solid #2e7d32;
+  background: radial-gradient(circle at 30% 30%, #4caf50, #1b5e20);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.1s ease;
+}
+
+.counter-btn:active {
+  transform: scale(0.95);
+}
+
+.counter-btn.pulse {
+  animation: pulse 0.3s ease;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+.count {
+  font-size: 3.5rem;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.target {
+  font-size: 1.1rem;
+  opacity: 0.85;
+  margin-top: 0.25rem;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #333;
+  border-radius: 999px;
+  margin-top: 1.5rem;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #2e7d32;
+  transition: width 0.15s ease;
+}
+
+.rounds {
+  margin-top: 1rem;
+  font-size: 1rem;
+  opacity: 0.85;
+}
+
+.reset-btn {
+  margin-top: 1rem;
+  padding: 0.5rem 1.2rem;
+  border: 1px solid #888;
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.reset-btn:hover {
+  border-color: #d32f2f;
+  color: #d32f2f;
+}
