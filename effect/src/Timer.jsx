@@ -95,7 +95,7 @@ function Timer() {
       <Card>
         <Status>
           <StatusDot $running={isRunning} />
-          {isRunning ? 'Ishlamoqda' : elapsedMs > 0 ? 'Pauza' : 'Tayyor'}
+          {isRunning ? 'Ishlamoqda' : elapsedMs > 0 ? 'Pause' : 'Tayyor'}
         </Status>
 
         <Display>{formatTime(elapsedMs)}</Display>
@@ -108,7 +108,7 @@ function Timer() {
 
         <Controls>
           <Button onClick={() => setIsRunning((running) => !running)}>
-            {isRunning ? 'Pauza' : 'Start'}
+            {isRunning ? 'Pause' : 'Start'}
           </Button>
           <Button $variant="lap" onClick={handleLap} disabled={!isRunning}>
             Lap
@@ -137,7 +137,7 @@ function Timer() {
           </Laps>
         )}
 
-        <Hint>Bo'shliq — start/pauza · L — lap · R — reset</Hint>
+        <Hint>Bo'shliq — start/pause · L — lap · R — reset</Hint>
       </Card>
     </Wrapper>
   )
