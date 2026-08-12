@@ -1,7 +1,7 @@
-import Timer from './Timer'
+import NotesApp from './NotesApp'
 
 function App() {
-  return <Timer />
+  return <NotesApp />
 }
 
 export default App
