@@ -117,12 +117,6 @@ function RefTimer() {
               ))}
           </ul>
         )}
-
-        <p className="m-0 max-w-80 text-center text-xs text-amber-900/70">
-          intervalRef — setInterval ID&apos;ni saqlaydi, o&apos;zgarganda
-          qayta render bo&apos;lmaydi. useEffect — komponent unmount
-          bo&apos;lganda intervalni tozalaydi.
-        </p>
       </div>
     </div>
   )
