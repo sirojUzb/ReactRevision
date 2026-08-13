@@ -1,7 +1,7 @@
-import NotesApp from './NotesApp'
+import RefTimer from './RefTimer'
 
 function App() {
-  return <NotesApp />
+  return <RefTimer />
 }
 
 export default App
