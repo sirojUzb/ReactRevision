@@ -48,7 +48,7 @@ function RefTimer() {
   const isRunning = status === 'running'
 
   return (
-    <div className="flex flex-grow flex-col items-center justify-center gap-6">
+    <div className="flex grow flex-col items-center justify-center gap-6">
       <h1>useRef Timer</h1>
 
       <div className="flex min-w-80 flex-col items-center gap-5 rounded-2xl border border-amber-300 bg-amber-300 p-8 shadow-lg">
