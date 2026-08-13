@@ -49,7 +49,7 @@ function RefTimer() {
 
   return (
     <div className="flex grow flex-col items-center justify-center gap-6">
-      <h1>useRef Timer</h1>
+      <h1>Timer</h1>
 
       <div className="flex min-w-80 flex-col items-center gap-5 rounded-2xl border border-amber-300 bg-amber-300 p-8 shadow-lg">
         <div className="flex items-center gap-2 text-sm text-amber-950">
