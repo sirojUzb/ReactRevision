@@ -1,7 +1,7 @@
-import RefTimer from './RefTimer'
+import Timer from './Timer'
 
 function App() {
-  return <RefTimer />
+  return <Timer />
 }
 
 export default App

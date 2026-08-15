@@ -1,145 +1,97 @@
-import { useEffect, useState } from 'react'
-import {
-  Button,
-  Card,
-  Controls,
-  Display,
-  Hint,
-  LapItem,
-  Laps,
-  ProgressBar,
-  ProgressFill,
-  Status,
-  StatusDot,
-  Wrapper,
-} from './Timer.styles'
-
-function formatTime(ms) {
-  const pad = (n) => String(n).padStart(2, '0')
-  const totalSeconds = Math.floor(ms / 1000)
-  const centiseconds = Math.floor((ms % 1000) / 10)
-  const hours = Math.floor(totalSeconds / 3600)
-  const minutes = Math.floor(totalSeconds / 60) % 60
-  const seconds = totalSeconds % 60
-
-  const base = hours > 0
-    ? `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`
-    : `${pad(minutes)}:${pad(seconds)}`
-
-  return `${base}.${pad(centiseconds)}`
-}
+import { Button } from 'antd'
+import { useEffect, useRef, useState } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 
 function Timer() {
-  const [elapsedMs, setElapsedMs] = useState(0)
-  const [isRunning, setIsRunning] = useState(false)
-  const [laps, setLaps] = useState([])
+  const timerRef = useRef(null)
 
-  useEffect(() => {
-    if (!isRunning) return
+  const [second, setSecond] = useState(0)
+  const [minute, setMinute] = useState(0)
+  const [hour, setHour] = useState(0)
+  const [running, setRunning] = useState(false)
+  const [lap, setLap] = useState([])
 
-    const startedAt = Date.now() - elapsedMs
-    const intervalId = setInterval(() => {
-      setElapsedMs(Date.now() - startedAt)
-    }, 10)
-
-    return () => clearInterval(intervalId)
-  }, [isRunning])
-
-  const totalSeconds = Math.floor(elapsedMs / 1000)
-
-  useEffect(() => {
-    document.title = isRunning || elapsedMs > 0
-      ? `${formatTime(totalSeconds * 1000)} — Timer`
-      : 'useEffect Timer'
-
-    return () => {
-      document.title = 'useEffect Timer'
+  const changeSecond = (previous) => {
+    if (previous === 59) {
+      setMinute(changeMinute)
+      return 0
     }
-  }, [totalSeconds, isRunning])
-
-  const handleReset = () => {
-    if (isRunning) return
-    setElapsedMs(0)
-    setLaps([])
+    return previous + 1
   }
 
-  const handleLap = () => {
-    setLaps((prev) => [...prev, { id: Date.now(), time: elapsedMs }])
+  const changeMinute = (previous) => {
+    if (previous === 59) {
+      setHour((previous) => previous + 1)
+      return 0
+    }
+    return previous + 1
   }
 
   useEffect(() => {
-    function handleKeyDown(event) {
-      if (event.code === 'Space') {
-        event.preventDefault()
-        setIsRunning((running) => !running)
-      } else if (event.key.toLowerCase() === 'r' && !isRunning) {
-        setElapsedMs(0)
-        setLaps([])
-      } else if (event.key.toLowerCase() === 'l' && isRunning) {
-        setLaps((prev) => [...prev, { id: Date.now(), time: elapsedMs }])
-      }
-    }
+    if (!running) return
 
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [isRunning, elapsedMs])
+    timerRef.current = setInterval(() => {
+      setSecond(changeSecond)
+    }, 1000)
 
-  const deltas = laps.map((lap, i) => lap.time - (laps[i - 1]?.time ?? 0))
-  const bestDelta = laps.length > 1 ? Math.min(...deltas) : null
-  const worstDelta = laps.length > 1 ? Math.max(...deltas) : null
+    return () => clearInterval(timerRef.current)
+  }, [running])
+
+  const reset = () => {
+    setRunning(false)
+    setSecond(0)
+    setMinute(0)
+    setHour(0)
+    setLap([])
+  }
+
+  const onLap = () => {
+    setLap((previous) => [...previous, { hour, minute, second, id: uuidv4() }])
+  }
+
+  const hasStarted = hour > 0 || minute > 0 || second > 0
 
   return (
-    <Wrapper>
-      <h1>useEffect Timer</h1>
+    <div id="main" className="flex min-h-screen items-center justify-center">
+      <div className="mt-52 h-125 w-125 bg-orange-500">
+        <div className="mt-5 flex w-full justify-center gap-2.5 text-7xl">
+          <h3>{hour}</h3>:<h3>{minute}</h3>:<h3>{second}</h3>
+        </div>
 
-      <Card>
-        <Status>
-          <StatusDot $running={isRunning} />
-          {isRunning ? 'Ishlamoqda' : elapsedMs > 0 ? 'Pause' : 'Tayyor'}
-        </Status>
-
-        <Display>{formatTime(elapsedMs)}</Display>
-
-        <ProgressBar>
-          <ProgressFill
-            style={{ width: `${((elapsedMs % 60000) / 60000) * 100}%` }}
-          />
-        </ProgressBar>
-
-        <Controls>
-          <Button onClick={() => setIsRunning((running) => !running)}>
-            {isRunning ? 'Pause' : 'Start'}
-          </Button>
-          <Button $variant="lap" onClick={handleLap} disabled={!isRunning}>
+        <div className="m-auto mt-5 flex w-[80%] justify-between">
+          <Button
+            color="green"
+            variant="solid"
+            onClick={onLap}
+            disabled={!running}
+            className="bg-green-600! border-green-600! text-white! hover:bg-green-700! disabled:bg-green-300! disabled:border-green-300! disabled:text-white!"
+          >
             Lap
           </Button>
-          <Button $variant="reset" onClick={handleReset} disabled={isRunning}>
-            Reset
+
+          {running ? (
+            <Button onClick={() => setRunning(false)}>Pause</Button>
+          ) : (
+            <Button onClick={() => setRunning(true)}>
+              {hasStarted ? 'Resume' : 'Start'}
+            </Button>
+          )}
+
+          <Button color="green" variant="solid" onClick={reset}>
+            Restart
           </Button>
-        </Controls>
+        </div>
 
-        {laps.length > 0 && (
-          <Laps>
-            {laps
-              .map((lap, i) => ({ ...lap, delta: deltas[i], index: i + 1 }))
-              .reverse()
-              .map((lap) => (
-                <LapItem
-                  key={lap.id}
-                  $best={lap.delta === bestDelta}
-                  $worst={lap.delta === worstDelta}
-                >
-                  <span>Lap {lap.index}</span>
-                  <span>+{formatTime(lap.delta)}</span>
-                  <span>{formatTime(lap.time)}</span>
-                </LapItem>
-              ))}
-          </Laps>
-        )}
-
-        <Hint>Bo'shliq — start/pause · L — lap · R — reset</Hint>
-      </Card>
-    </Wrapper>
+        <div className="mt-3 flex w-full flex-col items-center gap-4">
+          {lap.map(({ id, hour, minute, second }) => (
+            <div key={id} className="flex justify-center gap-2.5">
+              <h3>{hour}</h3>:<h3>{minute}</h3>:<h3>{second}</h3>
+            </div>
+          ))}
+          {lap.length > 0 && <Button onClick={() => setLap([])}>Reset</Button>}
+        </div>
+      </div>
+    </div>
   )
 }
 
