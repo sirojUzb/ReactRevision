@@ -1,4 +1,4 @@
-function Cart({ items, dispatch }) {
+function Cart({ items, dispatch, onCheckout }) {
   const subtotal = items.reduce((sum, item) => sum + item.price * item.qty, 0)
 
   return (
@@ -60,12 +60,20 @@ function Cart({ items, dispatch }) {
       </div>
 
       {items.length > 0 && (
-        <button
-          onClick={() => dispatch({ type: 'cart-cleared' })}
-          className="mt-3 rounded-lg bg-neutral-100 py-2 text-sm text-neutral-600 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700"
-        >
-          Tozalash
-        </button>
+        <div className="mt-3 flex gap-2">
+          <button
+            onClick={() => dispatch({ type: 'cart-cleared' })}
+            className="flex-1 rounded-lg bg-neutral-100 py-2 text-sm text-neutral-600 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700"
+          >
+            Tozalash
+          </button>
+          <button
+            onClick={onCheckout}
+            className="flex-1 rounded-lg bg-violet-600 py-2 text-sm font-medium text-white hover:bg-violet-700"
+          >
+            Buyurtma berish
+          </button>
+        </div>
       )}
     </aside>
   )

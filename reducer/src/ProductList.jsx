@@ -1,4 +1,4 @@
-function ProductList({ products, query, onQueryChange, onAdd }) {
+function ProductList({ products, categories, query, category, onQueryChange, onCategoryChange, onAdd }) {
   return (
     <section className="text-left">
       <input
@@ -6,8 +6,24 @@ function ProductList({ products, query, onQueryChange, onAdd }) {
         value={query}
         onChange={(event) => onQueryChange(event.target.value)}
         placeholder="Mahsulot qidirish..."
-        className="mb-4 w-full rounded-lg border border-neutral-200 bg-white px-4 py-2 text-sm text-neutral-900 outline-none focus:border-violet-400 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-100"
+        className="mb-3 w-full rounded-lg border border-neutral-200 bg-white px-4 py-2 text-sm text-neutral-900 outline-none focus:border-violet-400 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-100"
       />
+
+      <div className="mb-4 flex flex-wrap gap-2">
+        {categories.map((item) => (
+          <button
+            key={item}
+            onClick={() => onCategoryChange(item)}
+            className={`rounded-full border px-3 py-1 text-xs font-medium transition ${
+              category === item
+                ? 'border-violet-500 bg-violet-600 text-white'
+                : 'border-neutral-200 text-neutral-600 hover:border-violet-300 dark:border-neutral-700 dark:text-neutral-300'
+            }`}
+          >
+            {item}
+          </button>
+        ))}
+      </div>
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         {products.map((product) => (

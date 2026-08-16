@@ -1,15 +1,6 @@
-export const STORAGE_KEY = 'cart-state'
+const initialCartState = { items: [] }
 
-export function loadInitialCart() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    return raw ? JSON.parse(raw) : { items: [] }
-  } catch {
-    return { items: [] }
-  }
-}
-
-export function cartReducer(state, action) {
+export function cartReducer(state = initialCartState, action) {
   switch (action.type) {
     case 'item-added': {
       const existing = state.items.find((item) => item.id === action.payload.id)
@@ -52,6 +43,6 @@ export function cartReducer(state, action) {
     }
 
     default:
-      throw new Error(`Noma'lum action: ${action.type}`)
+      return state
   }
 }
