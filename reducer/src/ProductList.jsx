@@ -30,15 +30,31 @@ function ProductList({ products, categories, query, category, onQueryChange, onC
           <button
             key={product.id}
             onClick={() => onAdd(product)}
+            title={product.features ? product.features.join(', ') : undefined}
             className="flex flex-col items-center gap-1 rounded-xl border border-neutral-200 bg-white p-4 transition hover:border-violet-300 hover:shadow-md dark:border-neutral-800 dark:bg-neutral-900"
           >
-            <span className="text-3xl">{product.emoji}</span>
+            {product.image ? (
+              <img
+                src={product.image}
+                alt={product.name}
+                className="h-16 w-16 rounded-lg object-cover"
+              />
+            ) : (
+              <span className="text-3xl">{product.emoji}</span>
+            )}
             <span className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
               {product.name}
             </span>
             <span className="text-xs text-neutral-500 dark:text-neutral-400">
               ${product.price}
             </span>
+            {product.features && (
+              <ul className="mt-1 flex flex-col gap-0.5 text-[10px] leading-tight text-neutral-400 dark:text-neutral-500">
+                {product.features.slice(0, 2).map((feature) => (
+                  <li key={feature}>• {feature}</li>
+                ))}
+              </ul>
+            )}
           </button>
         ))}
 

@@ -14,7 +14,15 @@ function Cart({ items, dispatch, onCheckout }) {
           {items.map((item) => (
             <li key={item.id} className="flex items-center justify-between gap-2 text-sm">
               <div className="flex items-center gap-2">
-                <span className="text-xl">{item.emoji}</span>
+                {item.image ? (
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="h-8 w-8 rounded-md object-cover"
+                  />
+                ) : (
+                  <span className="text-xl">{item.emoji}</span>
+                )}
                 <div>
                   <p className="font-medium text-neutral-900 dark:text-neutral-100">
                     {item.name}
